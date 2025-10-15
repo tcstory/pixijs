@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 export function now() {
-    if (performance && performance.now) {
+    if (typeof performance !== "undefined" && performance !== null && performance.now) {
         return performance.now();
     } else if (wx) {
         return wx.getPerformance().now()
