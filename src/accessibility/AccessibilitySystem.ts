@@ -2,6 +2,7 @@
 import { CanvasObserver } from '../dom/CanvasObserver';
 import { FederatedEvent } from '../events/FederatedEvent';
 import { ExtensionType } from '../extensions/Extensions';
+import * as perf from '../mini-program/perf';
 import { isMobile } from '../utils/browser/isMobile';
 import { removeItems } from '../utils/data/removeItems';
 import { type AccessibleHTMLElement } from './accessibilityTarget';
@@ -497,7 +498,7 @@ export class AccessibilitySystem implements System<AccessibilitySystemOptions>
         *  moving buttons can cause focus to flicker between two buttons making it hard/impossible to navigate,
         *  so I am just running update every half a second, seems to fix it.
         */
-        const now = performance.now();
+        const now = perf.now();
 
         if (this._mobileInfo.android.device && now < this._androidUpdateCount)
         {

@@ -1,4 +1,5 @@
 import { ExtensionType } from '../extensions/Extensions';
+import * as perf from '../mini-program/perf';
 import { EventBoundary } from './EventBoundary';
 import { EventsTicker } from './EventTicker';
 import { FederatedPointerEvent } from './FederatedPointerEvent';
@@ -1118,7 +1119,7 @@ export class EventSystem implements System<EventSystemOptions>
     {
         event.isTrusted = nativeEvent.isTrusted;
         event.srcElement = nativeEvent.srcElement;
-        event.timeStamp = performance.now();
+        event.timeStamp = perf.now();
         event.type = nativeEvent.type;
 
         event.altKey = nativeEvent.altKey;

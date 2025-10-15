@@ -65,7 +65,7 @@ export class GlLimitsSystem implements System
         // UBs are available only in WebGL2 context, requesting within WebGL1 produces a warning.
         const isWebGl2 = this._renderer.context.webGLVersion === 2;
 
-        this.maxUniformBindings = isWebGl2
+        this.maxUniformBindings = (isWebGl2 && gl.MAX_UNIFORM_BUFFER_BINDINGS)
             ? gl.getParameter(gl.MAX_UNIFORM_BUFFER_BINDINGS)
             : 0;
     }

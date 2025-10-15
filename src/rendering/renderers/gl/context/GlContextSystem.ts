@@ -285,7 +285,15 @@ export class GlContextSystem implements System<ContextSystemOptions>
     {
         this.gl = gl;
 
-        this.webGLVersion = gl instanceof DOMAdapter.get().getWebGLRenderingContext() ? 1 : 2;
+        // @ts-expect-error wx is available on wechat mini program
+        if (this.wx)
+        {
+            this.webGLVersion = 1;
+        }
+        else
+        {
+            this.webGLVersion = gl instanceof DOMAdapter.get().getWebGLRenderingContext() ? 1 : 2;
+        }
 
         this.getExtensions();
 

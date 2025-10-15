@@ -77,6 +77,54 @@ const exportFields: Record<string, ExportField> = {
             default: './lib/gif/init.js',
         },
     },
+    './app/application': {
+        import: {
+            default: './lib/app/Application.mjs'
+        },
+        require: {
+            default: './lib/app/Application.js'
+        }
+    },
+    './rendering': {
+        import: {
+            default: './lib/rendering/index.mjs'
+        },
+        require: {
+            default: './lib/rendering/index.js'
+        }
+    },
+    './rendering/init': {
+        import: {
+            default: './lib/rendering/init.mjs'
+        },
+        require: {
+            default: './lib/rendering/init.js'
+        }
+    },
+    './environment/adapter': {
+        import: {
+            default: './lib/environment/adapter.mjs'
+        },
+        require: {
+            default: './lib/environment/adapter.js'
+        }
+    },
+    './scene/graphics': {
+        import: {
+            default: './lib/scene/graphics/shared/Graphics.mjs'
+        },
+        require: {
+            default: './lib/scene/graphics/shared/Graphics.js'
+        }
+    },
+    './mini-program/*': {
+        import: {
+            default: './lib/mini-program/*.mjs'
+        },
+        require: {
+            default: './lib/mini-program/*.js'
+        }
+    }
 };
 const sideEffects = [
     './lib/environment-browser/browserAll.*',
@@ -86,6 +134,7 @@ const sideEffects = [
     './lib/spritesheet/init.*',
     './lib/rendering/renderers/shared/texture/utils/textureFrom.*',
     './lib/gif/init.*',
+    './lib/mini-program/init-app.*'
 ];
 
 for (const [name, path] of subImports)

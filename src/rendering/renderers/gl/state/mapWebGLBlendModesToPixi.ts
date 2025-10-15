@@ -28,7 +28,17 @@ export function mapWebGLBlendModesToPixi(gl: GlRenderingContext): Record<BLEND_M
 
     blendMap.erase = [gl.ZERO, gl.ONE_MINUS_SRC_ALPHA];
 
-    const isWebGl2 = !(gl instanceof DOMAdapter.get().getWebGLRenderingContext());
+    let isWebGl2 = null;
+
+    // @ts-expect-error wx is available on wechat mini program
+    if (wx)
+    {
+        isWebGl2 = false;
+    }
+    else
+    {
+        isWebGl2 = !(gl instanceof DOMAdapter.get().getWebGLRenderingContext());
+    }
 
     if (isWebGl2)
     {

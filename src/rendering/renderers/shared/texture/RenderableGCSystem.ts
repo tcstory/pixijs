@@ -1,4 +1,5 @@
 import { ExtensionType } from '../../../../extensions/Extensions';
+import * as perf from '../../../../mini-program/perf';
 import { type RenderGroup } from '../../../../scene/container/RenderGroup';
 import { cleanArray, cleanHash } from '../../../../utils/data/clean';
 import { type RenderOptions } from '../system/AbstractRenderer';
@@ -239,7 +240,7 @@ export class RenderableGCSystem implements System<RenderableGCSystemOptions>
         container
     }: RenderOptions): void
     {
-        this._now = performance.now();
+        this._now = perf.now();
 
         // The gcTick is a monotonically increasing counter that tracks render cycles
         // Each time we render, we increment the global renderableGCTick counter

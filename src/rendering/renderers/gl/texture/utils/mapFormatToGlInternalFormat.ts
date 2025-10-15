@@ -19,7 +19,18 @@ export function mapFormatToGlInternalFormat(
     let srgb = {};
     let bgra8unorm: number = gl.RGBA;
 
-    if (!(gl instanceof DOMAdapter.get().getWebGLRenderingContext()))
+    let val = null;
+
+    // @ts-expect-error wx is available on wechat mini program
+    if (wx)
+    {
+        val = true;
+    }
+    else
+    {
+        val = gl instanceof DOMAdapter.get().getWebGLRenderingContext();
+    }
+    if (!val)
     {
         srgb = {
             'rgba8unorm-srgb': gl.SRGB8_ALPHA8,
