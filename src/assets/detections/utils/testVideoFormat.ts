@@ -13,6 +13,12 @@ export function testVideoFormat(mimeType: string): boolean
         return false;
     }
 
+    // @ts-expect-error we temporarily return true for now
+    if (wx)
+    {
+        return true;
+    }
+
     const video = document.createElement('video');
 
     return video.canPlayType(mimeType) !== '';

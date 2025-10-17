@@ -101,6 +101,14 @@ const exportFields: Record<string, ExportField> = {
             default: './lib/rendering/init.js'
         }
     },
+    './spritesheet/init': {
+        import: {
+            default: './lib/spritesheet/init.mjs'
+        },
+        require: {
+            default: './lib/spritesheet/init.js'
+        }
+    },
     './environment/adapter': {
         import: {
             default: './lib/environment/adapter.mjs'
@@ -117,6 +125,14 @@ const exportFields: Record<string, ExportField> = {
             default: './lib/scene/graphics/shared/Graphics.js'
         }
     },
+    './scene/sprite': {
+        import: {
+            default: './lib/scene/sprite/Sprite.mjs'
+        },
+        require: {
+            default: './lib/scene/sprite/Sprite.js'
+        }
+    },
     './mini-program/*': {
         import: {
             default: './lib/mini-program/*.mjs'
@@ -124,7 +140,15 @@ const exportFields: Record<string, ExportField> = {
         require: {
             default: './lib/mini-program/*.js'
         }
-    }
+    },
+    './assets': {
+        import: {
+            default: './lib/assets/index.mjs'
+        },
+        require: {
+            default: './lib/assets/index.js'
+        }
+    },
 };
 const sideEffects = [
     './lib/environment-browser/browserAll.*',
