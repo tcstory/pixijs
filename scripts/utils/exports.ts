@@ -133,6 +133,14 @@ const exportFields: Record<string, ExportField> = {
             default: './lib/scene/sprite/Sprite.js'
         }
     },
+    './scene/text': {
+        import: {
+            default: './lib/scene/text/Text.mjs'
+        },
+        require: {
+            default: './lib/scene/text/Text.js'
+        }
+    },
     './mini-program/*': {
         import: {
             default: './lib/mini-program/*.mjs'
