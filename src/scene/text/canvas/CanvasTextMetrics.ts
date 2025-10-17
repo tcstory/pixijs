@@ -127,7 +127,7 @@ export class CanvasTextMetrics
      */
     public static graphemeSegmenter: (s: string) => string[] = (() =>
     {
-        if (typeof (Intl as IIntl)?.Segmenter === 'function')
+        if (typeof Intl !== 'undefined' && typeof (Intl as IIntl)?.Segmenter === 'function')
         {
             const segmenter = new (Intl as IIntl).Segmenter();
 
