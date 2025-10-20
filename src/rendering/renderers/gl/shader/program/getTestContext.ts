@@ -16,9 +16,9 @@ export function getTestContext(): GlRenderingContext
         const adapter = DOMAdapter.get();
         let canvas = null;
 
-        if (typeof adapter.createCanvasOfWebGl === 'function')
+        if (typeof adapter.createCanvasOfWebGL === 'function')
         {
-            canvas = adapter.createCanvasOfWebGl();
+            canvas = adapter.createCanvasOfWebGL();
         }
         else
         {
