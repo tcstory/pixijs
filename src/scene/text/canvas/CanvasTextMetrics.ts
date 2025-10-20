@@ -166,7 +166,8 @@ export class CanvasTextMetrics
 
         if (result === undefined)
         {
-            const proto = DOMAdapter.get().getCanvasRenderingContext2D().prototype;
+            const ctx = DOMAdapter.get().getCanvasRenderingContext2D();
+            const proto = Object.getPrototypeOf(ctx);
 
             result
                 = CanvasTextMetrics._experimentalLetterSpacingSupported
