@@ -357,29 +357,46 @@ export class CanvasTextMetrics
 
         const metrics = context.measureText(text);
         let metricWidth = metrics.width;
-        const actualBoundingBoxLeft = -metrics.actualBoundingBoxLeft;
-        const actualBoundingBoxRight = metrics.actualBoundingBoxRight;
-        let boundsWidth = actualBoundingBoxRight - actualBoundingBoxLeft;
 
+        if ('actualBoundingBoxLeft' in metrics)
+        {
+            const actualBoundingBoxLeft = -metrics.actualBoundingBoxLeft;
+            const actualBoundingBoxRight = metrics.actualBoundingBoxRight;
+            let boundsWidth = actualBoundingBoxRight - actualBoundingBoxLeft;
+
+            if (metricWidth > 0)
+            {
+                if (useExperimentalLetterSpacing)
+                {
+                    metricWidth -= letterSpacing;
+                    boundsWidth -= letterSpacing;
+                }
+                else
+                {
+                    const val = (CanvasTextMetrics.graphemeSegmenter(text).length - 1) * letterSpacing;
+
+                    metricWidth += val;
+                    boundsWidth += val;
+                }
+            }
+
+            // NOTE: this is a bit of a hack as metrics.width and the bounding box width do not measure the same thing
+            // We can't seem to exclusively use one or the other, so are taking the largest of the two
+            return Math.max(metricWidth, boundsWidth);
+        }
         if (metricWidth > 0)
         {
             if (useExperimentalLetterSpacing)
             {
                 metricWidth -= letterSpacing;
-                boundsWidth -= letterSpacing;
             }
             else
             {
-                const val = (CanvasTextMetrics.graphemeSegmenter(text).length - 1) * letterSpacing;
-
-                metricWidth += val;
-                boundsWidth += val;
+                metricWidth += (CanvasTextMetrics.graphemeSegmenter(text).length - 1) * letterSpacing;
             }
         }
 
-        // NOTE: this is a bit of a hack as metrics.width and the bounding box width do not measure the same thing
-        // We can't seem to exclusively use one or the other, so are taking the largest of the two
-        return Math.max(metricWidth, boundsWidth);
+        return metricWidth;
     }
 
     /**
@@ -820,17 +837,125 @@ export class CanvasTextMetrics
         const context = CanvasTextMetrics._context;
 
         context.font = font;
-        const metrics = context.measureText(CanvasTextMetrics.METRICS_STRING + CanvasTextMetrics.BASELINE_SYMBOL);
+        const metricsString = CanvasTextMetrics.METRICS_STRING + CanvasTextMetrics.BASELINE_SYMBOL;
+        const metrics = context.measureText(metricsString);
 
-        const properties = {
-            ascent: metrics.actualBoundingBoxAscent,
-            descent: metrics.actualBoundingBoxDescent,
-            fontSize: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-        };
+        if ('actualBoundingBoxAscent' in metrics)
+        {
+            const properties = {
+                ascent: metrics.actualBoundingBoxAscent,
+                descent: metrics.actualBoundingBoxDescent,
+                fontSize: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+            };
 
-        CanvasTextMetrics._fonts[font] = properties;
+            CanvasTextMetrics._fonts[font] = properties;
 
-        return properties;
+            return properties;
+        }
+        else
+        // eslint-disable-next-line no-else-return
+        {
+            // copied the following code from pixi 7.x
+            const properties = {
+                ascent: 0,
+                descent: 0,
+                fontSize: 0,
+            };
+
+            const canvas = CanvasTextMetrics._canvas;
+            const context = CanvasTextMetrics._context;
+
+            context.font = font;
+
+            // @ts-expect-error metrics.width
+            const width = Math.ceil(metrics.width);
+            let baseline = Math.ceil(context.measureText(CanvasTextMetrics.BASELINE_SYMBOL).width);
+            const height = Math.ceil(CanvasTextMetrics.HEIGHT_MULTIPLIER * baseline);
+
+            baseline = baseline * CanvasTextMetrics.BASELINE_MULTIPLIER | 0;
+
+            if (width === 0 || height === 0)
+            {
+                CanvasTextMetrics._fonts[font] = properties;
+
+                return properties;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            context.fillStyle = '#f00';
+            context.fillRect(0, 0, width, height);
+
+            context.font = font;
+
+            context.textBaseline = 'alphabetic';
+            context.fillStyle = '#000';
+            context.fillText(metricsString, 0, baseline);
+
+            const imagedata = context.getImageData(0, 0, width, height).data;
+            const pixels = imagedata.length;
+            const line = width * 4;
+
+            let i = 0;
+            let idx = 0;
+            let stop = false;
+
+            // ascent. scan from top to bottom until we find a non red pixel
+            for (i = 0; i < baseline; ++i)
+            {
+                for (let j = 0; j < line; j += 4)
+                {
+                    if (imagedata[idx + j] !== 255)
+                    {
+                        stop = true;
+                        break;
+                    }
+                }
+                if (!stop)
+                {
+                    idx += line;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            properties.ascent = baseline - i;
+
+            idx = pixels - line;
+            stop = false;
+
+            // descent. scan from bottom to top until we find a non red pixel
+            for (i = height; i > baseline; --i)
+            {
+                for (let j = 0; j < line; j += 4)
+                {
+                    if (imagedata[idx + j] !== 255)
+                    {
+                        stop = true;
+                        break;
+                    }
+                }
+
+                if (!stop)
+                {
+                    idx -= line;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            properties.descent = i - baseline;
+            properties.fontSize = properties.ascent + properties.descent;
+
+            CanvasTextMetrics._fonts[font] = properties;
+
+            return properties;
+        }
     }
 
     /**
