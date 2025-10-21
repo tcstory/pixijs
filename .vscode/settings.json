@@ -8,5 +8,6 @@
     "typescript.preferences.autoImportSpecifierExcludeRegexes": [
         "~/.*",
     ],
-    "jestrunner.jestCommand": "npx jest"
+    "jestrunner.jestCommand": "npx jest",
+    "kiroAgent.configureMCP": "Disabled"
   }
