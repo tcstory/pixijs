@@ -149,6 +149,14 @@ const exportFields: Record<string, ExportField> = {
             default: './lib/scene/text/TextStyle.js'
         }
     },
+    './scene/container': {
+        import: {
+            default: './lib/scene/container/Container.mjs'
+        },
+        require: {
+            default: './lib/scene/container/Container.js'
+        }
+    },
     './mini-program/*': {
         import: {
             default: './lib/mini-program/*.mjs'
