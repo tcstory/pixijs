@@ -322,6 +322,22 @@
         "default": "./lib/scene/text/Text.js"
       }
     },
+    "./scene/text-style": {
+      "import": {
+        "default": "./lib/scene/text/TextStyle.mjs"
+      },
+      "require": {
+        "default": "./lib/scene/text/TextStyle.js"
+      }
+    },
+    "./scene/container": {
+      "import": {
+        "default": "./lib/scene/container/Container.mjs"
+      },
+      "require": {
+        "default": "./lib/scene/container/Container.js"
+      }
+    },
     "./mini-program/*": {
       "import": {
         "default": "./lib/mini-program/*.mjs"
