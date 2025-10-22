@@ -1,13 +1,13 @@
 {
-  "name": "pixi.js",
+  "name": "pixi.js-for-mini-program",
   "version": "8.14.0",
   "author": "PixiJS Team",
   "homepage": "http://pixijs.com/",
-  "bugs": "https://github.com/pixijs/pixijs/issues",
+  "bugs": "https://github.com/tcstory/pixijs/issues",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pixijs/pixijs.git"
+    "url": "https://github.com/tcstory/pixijs"
   },
   "funding": {
     "type": "opencollective",
