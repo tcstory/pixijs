@@ -14,7 +14,7 @@ export function testVideoFormat(mimeType: string): boolean
     }
 
     // @ts-expect-error we temporarily return true for now
-    if (wx)
+    if (typeof wx !== 'undefined')
     {
         return true;
     }

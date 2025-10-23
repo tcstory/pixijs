@@ -31,7 +31,7 @@ export function mapWebGLBlendModesToPixi(gl: GlRenderingContext): Record<BLEND_M
     let isWebGl2 = null;
 
     // @ts-expect-error wx is available on wechat mini program
-    if (wx)
+    if (typeof wx !== 'undefined')
     {
         isWebGl2 = false;
     }

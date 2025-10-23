@@ -286,7 +286,7 @@ export class GlContextSystem implements System<ContextSystemOptions>
         this.gl = gl;
 
         // @ts-expect-error wx is available on wechat mini program
-        if (wx)
+        if (typeof wx !== 'undefined')
         {
             this.webGLVersion = 1;
         }

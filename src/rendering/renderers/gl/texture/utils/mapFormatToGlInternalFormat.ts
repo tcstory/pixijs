@@ -22,7 +22,7 @@ export function mapFormatToGlInternalFormat(
     let val = null;
 
     // @ts-expect-error wx is available on wechat mini program
-    if (wx)
+    if (typeof wx !== 'undefined')
     {
         val = true;
     }
