@@ -354,6 +354,14 @@
         "default": "./lib/assets/index.js"
       }
     },
+    "./maths/point/*": {
+      "import": {
+        "default": "./lib/maths/point/*.mjs"
+      },
+      "require": {
+        "default": "./lib/maths/point/*.js"
+      }
+    },
     "./accessibility": {
       "import": {
         "default": "./lib/accessibility/init.mjs"

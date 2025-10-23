@@ -173,6 +173,14 @@ const exportFields: Record<string, ExportField> = {
             default: './lib/assets/index.js'
         }
     },
+    './maths/point/*': {
+        import: {
+            default: './lib/maths/point/*.mjs'
+        },
+        require: {
+            default: './lib/maths/point/*.js'
+        }
+    },
 };
 const sideEffects = [
     './lib/environment-browser/browserAll.*',
