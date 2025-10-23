@@ -1,4 +1,5 @@
 import { browserExt } from './environment-browser/browserExt';
+import { miniProgramExt } from './environment-browser/miniProgramExt';
 import { webworkerExt } from './environment-webworker/webworkerExt';
 import { extensions } from './extensions/Extensions';
 import './rendering/init';
@@ -26,4 +27,12 @@ export * from './spritesheet';
 export * from './ticker';
 export * from './utils';
 
-extensions.add(browserExt, webworkerExt);
+// @ts-expect-error wx is available
+if (typeof wx !== 'undefined')
+{
+    extensions.add(miniProgramExt);
+}
+else
+{
+    extensions.add(browserExt, webworkerExt);
+}
