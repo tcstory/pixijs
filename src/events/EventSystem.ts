@@ -548,6 +548,11 @@ export class EventSystem implements System<EventSystemOptions>
         {
             applyStyles = false;
         }
+        // @ts-expect-error wx is available
+        if (typeof wx !== 'undefined')
+        {
+            applyStyles = false;
+        }
         // if the mode didn't actually change, bail early
         if (this._currentCursor === mode)
         {
@@ -811,7 +816,16 @@ export class EventSystem implements System<EventSystemOptions>
          * These events are added first, so that if pointer events are normalized, they are fired
          * in the same order as non-normalized events. ie. pointer event 1st, mouse / touch 2nd
          */
-        if (this.supportsPointerEvents)
+        // @ts-expect-error wx is available
+        if (typeof wx !== 'undefined')
+        {
+            // eslint-disable-next-line max-len
+            // wechat mini program supports these events, https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E4%BA%8B%E4%BB%B6%E5%88%86%E7%B1%BB
+            this.domElement.addEventListener('touchstart', this._onPointerDown, true);
+            this.domElement.addEventListener('touchend', this._onPointerUp, true);
+            this.domElement.addEventListener('touchmove', this._onPointerMove, true);
+        }
+        else if (this.supportsPointerEvents)
         {
             globalThis.document.addEventListener('pointermove', this._onPointerMove, true);
             this.domElement.addEventListener('pointerdown', this._onPointerDown, true);
@@ -874,7 +888,14 @@ export class EventSystem implements System<EventSystemOptions>
             }
         }
 
-        if (this.supportsPointerEvents)
+        // @ts-expect-error wx is available
+        if (typeof wx !== 'undefined')
+        {
+            this.domElement.removeEventListener('touchstart', this._onPointerDown, true);
+            this.domElement.removeEventListener('touchend', this._onPointerUp, true);
+            this.domElement.removeEventListener('touchmove', this._onPointerMove, true);
+        }
+        else if (this.supportsPointerEvents)
         {
             globalThis.document.removeEventListener('pointermove', this._onPointerMove, true);
             this.domElement.removeEventListener('pointerdown', this._onPointerDown, true);
