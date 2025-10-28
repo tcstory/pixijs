@@ -987,7 +987,7 @@ export class EventSystem implements System<EventSystemOptions>
     {
         const normalizedEvents = [];
 
-        if (this.supportsTouchEvents && event instanceof TouchEvent)
+        if ((this.supportsTouchEvents && event instanceof TouchEvent) || typeof wx !== 'undefined')
         {
             for (let i = 0, li = event.changedTouches.length; i < li; i++)
             {
