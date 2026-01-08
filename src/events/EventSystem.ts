@@ -695,7 +695,8 @@ export class EventSystem implements System<EventSystemOptions>
         if (!this.features.click) return;
         this.rootBoundary.rootTarget = this.renderer.lastObjectRendered;
 
-        let target = nativeEvent.target;
+        // wxTarget is for WeChat Mini Program compatibility
+        let target = nativeEvent.wxTarget ?? nativeEvent.target;
 
         // if in shadow DOM use composedPath to access target
         if (nativeEvent.composedPath && nativeEvent.composedPath().length > 0)
