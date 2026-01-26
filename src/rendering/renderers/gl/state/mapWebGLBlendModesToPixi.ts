@@ -1,4 +1,5 @@
 import { DOMAdapter } from '../../../../environment/adapter';
+import { isMiniProgram } from '~/mini-program/utils';
 
 import type { BLEND_MODES } from '../../shared/state/const';
 import type { GlRenderingContext } from '../context/GlRenderingContext';
@@ -28,7 +29,16 @@ export function mapWebGLBlendModesToPixi(gl: GlRenderingContext): Record<BLEND_M
 
     blendMap.erase = [gl.ZERO, gl.ONE_MINUS_SRC_ALPHA];
 
-    const isWebGl2 = !(gl instanceof DOMAdapter.get().getWebGLRenderingContext());
+    let isWebGl2 = null;
+
+    if (isMiniProgram())
+    {
+        isWebGl2 = false;
+    }
+    else
+    {
+        isWebGl2 = !(gl instanceof DOMAdapter.get().getWebGLRenderingContext());
+    }
 
     if (isWebGl2)
     {

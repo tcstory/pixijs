@@ -2,6 +2,7 @@ import { DOMAdapter } from '../../../../environment/adapter';
 import { ExtensionType } from '../../../../extensions/Extensions';
 import { warn } from '../../../../utils/logging/warn';
 import { type GpuPowerPreference } from '../../types';
+import { isMiniProgram } from '~/mini-program/utils';
 
 import type { ICanvas } from '../../../../environment/canvas/ICanvas';
 import type { System } from '../../shared/system/System';
@@ -285,7 +286,14 @@ export class GlContextSystem implements System<ContextSystemOptions>
     {
         this.gl = gl;
 
-        this.webGLVersion = gl instanceof DOMAdapter.get().getWebGLRenderingContext() ? 1 : 2;
+        if (isMiniProgram())
+        {
+            this.webGLVersion = 1;
+        }
+        else
+        {
+            this.webGLVersion = gl instanceof DOMAdapter.get().getWebGLRenderingContext() ? 1 : 2;
+        }
 
         this.getExtensions();
 

@@ -1,4 +1,5 @@
 import { ExtensionType } from '../../../extensions/Extensions';
+import * as perf from '../../../mini-program/perf';
 import { Ticker } from '../../../ticker/Ticker';
 
 import type { System } from './system/System';
@@ -65,9 +66,9 @@ export class SchedulerSystem implements System<null>
         this._tasks.push({
             func,
             duration,
-            start: performance.now(),
+            start: perf.now(),
             offset,
-            last: performance.now(),
+            last: perf.now(),
             repeat: true,
             id
         });
@@ -98,7 +99,7 @@ export class SchedulerSystem implements System<null>
      */
     private _update(): void
     {
-        const now = performance.now();
+        const now = perf.now();
 
         for (let i = 0; i < this._tasks.length; i++)
         {

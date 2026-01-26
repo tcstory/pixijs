@@ -1,3 +1,4 @@
+import * as perf from '../mini-program/perf';
 import { UPDATE_PRIORITY } from './const';
 import { TickerListener } from './TickerListener';
 
@@ -300,7 +301,7 @@ export class Ticker
         if (this._requestId === null && this._head.next)
         {
             // ensure callbacks get correct delta
-            this.lastTime = performance.now();
+            this.lastTime = perf.now();
             this._lastFrame = this.lastTime;
             this._requestId = requestAnimationFrame(this._tick);
         }
@@ -643,7 +644,7 @@ export class Ticker
      * @see {@link Ticker#deltaTime} For frame delta value
      * @see {@link Ticker#elapsedMS} For raw elapsed time
      */
-    public update(currentTime: number = performance.now()): void
+    public update(currentTime: number = perf.now()): void
     {
         let elapsedMS;
 

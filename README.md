@@ -14,7 +14,7 @@
 </p>
 
 # PixiJS ⚡️
-> Next-Generation, Fastest HTML5 Creation Engine for the Web
+> Next-Generation, Fastest HTML5 Creation Engine for the Web. Add support for WeChat Mini Program(支持微信小程序).
 
 - 🚀 [WebGL](https://en.wikipedia.org/wiki/WebGL) & [WebGPU](https://en.wikipedia.org/wiki/WebGPU) Renderers
 - ⚡️ Unmatched Performance & Speed

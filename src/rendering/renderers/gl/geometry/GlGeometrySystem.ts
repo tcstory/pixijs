@@ -90,6 +90,25 @@ export class GlGeometrySystem implements System
             gl.deleteVertexArray = (vao): void =>
                 nativeVaoExtension.deleteVertexArrayOES(vao);
         }
+        else
+        {
+            // in order to support WeChat Mini Programs, i copy the code from
+            // https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/visionkit/base.html
+            const ext = gl.getExtension('OES_vertex_array_object');
+
+            if (ext)
+            {
+                gl.createVertexArray = () => ext.createVertexArrayOES();
+                gl.bindVertexArray = (vao) => ext.bindVertexArrayOES(vao);
+                gl.deleteVertexArray = (vao) => ext.deleteVertexArrayOES(vao);
+            }
+            else
+            {
+                gl.createVertexArray = () => null;
+                gl.bindVertexArray = () => null;
+                gl.deleteVertexArray = () => null;
+            }
+        }
 
         const nativeInstancedExtension = this._renderer.context.extensions.vertexAttribDivisorANGLE;
 

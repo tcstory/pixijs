@@ -1,8 +1,10 @@
 import { browserExt } from './environment-browser/browserExt';
+import { miniProgramExt } from './environment-browser/miniProgramExt';
 import { webworkerExt } from './environment-webworker/webworkerExt';
 import { extensions } from './extensions/Extensions';
 import './rendering/init';
 import './spritesheet/init';
+import { isMiniProgram } from '~/mini-program/utils';
 
 export * from './accessibility';
 export * from './advanced-blend-modes';
@@ -26,4 +28,11 @@ export * from './spritesheet';
 export * from './ticker';
 export * from './utils';
 
-extensions.add(browserExt, webworkerExt);
+if (isMiniProgram())
+{
+    extensions.add(miniProgramExt);
+}
+else
+{
+    extensions.add(browserExt, webworkerExt);
+}

@@ -1,5 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { Point } from '../maths/point/Point';
+import * as perf from '../mini-program/perf';
 import { warn } from '../utils/logging/warn';
 import { EventsTicker } from './EventTicker';
 import { FederatedMouseEvent } from './FederatedMouseEvent';
@@ -971,7 +972,7 @@ export class EventBoundary
             return;
         }
 
-        const now = performance.now();
+        const now = perf.now();
         const e = this.createPointerEvent(from);
 
         this.dispatchEvent(e, 'pointerup');
@@ -1372,7 +1373,7 @@ export class EventBoundary
     {
         to.isTrusted = from.isTrusted;
         to.srcElement = from.srcElement;
-        to.timeStamp = performance.now();
+        to.timeStamp = perf.now();
         to.type = from.type;
         to.detail = from.detail;
         to.view = from.view;

@@ -1,4 +1,5 @@
 import { DOMAdapter } from '../../../../../environment/adapter';
+import { isMiniProgram } from '~/mini-program/utils';
 
 import type { GlRenderingContext } from '../../context/GlRenderingContext';
 import type { WebGLExtensions } from '../../context/WebGLExtensions';
@@ -19,7 +20,17 @@ export function mapFormatToGlInternalFormat(
     let srgb = {};
     let bgra8unorm: number = gl.RGBA;
 
-    if (!(gl instanceof DOMAdapter.get().getWebGLRenderingContext()))
+    let val = null;
+
+    if (isMiniProgram())
+    {
+        val = true;
+    }
+    else
+    {
+        val = gl instanceof DOMAdapter.get().getWebGLRenderingContext();
+    }
+    if (!val)
     {
         srgb = {
             'rgba8unorm-srgb': gl.SRGB8_ALPHA8,
